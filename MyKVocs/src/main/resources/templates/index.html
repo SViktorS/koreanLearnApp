@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>My Web-App name</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	</head>
+	<body class="bg-dark">
+		<div class="d-flex flex-column m-2">
+			<header class="mb-auto">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<a class="navbar-brand">My Web-App title/logo</a>
+				</nav>
+			</header>
+		</div>   
+		<div class="container bg-light p-5">
+			<h2 class="mb-5">Your VocBooks:</h2>
+			<table class="table table-striped table-responsive-md">
+				<tbody>
+					<tr th:each="vocbook : ${vocbooks}">
+						<td th:text="${vocbook.name}"></td>
+						<td>
+							<a th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}" class="btn btn-success">view</a>
+							<a th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}" class="btn btn-success">test</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>  
+	</body>
+</html>
