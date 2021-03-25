@@ -14,7 +14,7 @@ public class VocBookController {
 	
 	@GetMapping("/")
     public String showUserList(Model model) {
-        model.addAttribute("vocbooks", vocBookService.displayEntities());
+        model.addAttribute("vocbooks", vocBookService.displayVocBooks());
         return "index";
     }
 	
