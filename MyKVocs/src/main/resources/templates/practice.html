@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>MyVocBook</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	</head>
+	<body class="bg-dark">
+		<div class="d-flex flex-column m-2">
+			<header class="mb-auto">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<a href="/" class="navbar-brand">MyVocBook</a>
+				</nav>
+			</header>
+		</div>   
+		<div class="container bg-light p-5">
+			<h2 class="mb-2" th:text="${vocbookInfo.name} + '- Practice - Word ' + ${progressPractice} + '/' + ${vocbookSize}"></h2>
+			<h6 class="pb-2">Practice by filling in the missing words. Click on the 'Done' button to see how many words you got correct.</h6>
+			
+			<form action="#" th:action="@{/vocbook/{vocBookId}/practice/{wordId}(vocBookId=${vocbookInfo.vocBookId}, wordId=${wordForPractice.wordId})}" th:object="${answer}" method="post">
+				<table class="table table-striped table-responsive-md">
+	 				<thead>
+						<tr>
+							<th>English</th>
+							<th>Korean</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="${wordForPractice.englishWord}"></td>
+					        <td><input type="text" name=answer class="form-control" placeholder="Your Answer" required></td>           
+						</tr>
+					</tbody>
+				</table>
+		         <button type="submit" class="btn btn-success">Next Word</button>
+		    </form>
+			 
+			
+			
+		</div>  
+	</body>
+</html>

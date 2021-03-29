@@ -10,14 +10,16 @@ import javax.validation.constraints.NotBlank;
 public class Word {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="native")
 	private int wordId;
 	
-	@NotBlank(message = "ups...don't forget this one")
 	private String englishWord;
 	
-	@NotBlank(message = "ups...don't forget this one")
 	private String koreanWord;
+	
+	private String practiceAnswer;
+	
+	private boolean skipped;
 	
 	private int vocBookId;
 	
@@ -27,6 +29,8 @@ public class Word {
 		this.englishWord = englishWord;
 		this.koreanWord = koreanWord;
 		this.vocBookId = vocBookId;
+		this.practiceAnswer = "";
+		this.skipped = false;
 	}
 	
 	public String getEnglishWord() {
@@ -60,7 +64,20 @@ public class Word {
 	public void setVocBookId(int vocBookId) {
 		this.vocBookId = vocBookId;
 	}
-	
-	
 
+	public String getPracticeAnswer() {
+		return practiceAnswer;
+	}
+
+	public void setPracticeAnswer(String practiceAnswer) {
+		this.practiceAnswer = practiceAnswer;
+	}
+
+	public boolean isSkipped() {
+		return skipped;
+	}
+
+	public void setSkipped(boolean skipped) {
+		this.skipped = skipped;
+	}
 }

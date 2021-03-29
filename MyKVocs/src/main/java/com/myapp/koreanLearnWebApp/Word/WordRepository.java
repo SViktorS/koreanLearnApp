@@ -10,4 +10,6 @@ public interface WordRepository extends CrudRepository<Word, Integer> {
 
 	public List<Word> findByVocBookId(int vocBookId);
 	
+	public List<Word> findByVocBookIdAndPracticeAnswer(int vocBookId, String practiceAnswer);
+	
 }

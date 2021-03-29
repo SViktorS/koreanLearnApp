@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>My Web-App name</title>
+		<title>MyVocBook</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 	</head>
@@ -11,12 +11,13 @@
 		<div class="d-flex flex-column m-2">
 			<header class="mb-auto">
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					<a class="navbar-brand">My Web-App title/logo</a>
+					<a href="/" class="navbar-brand">MyVocBook</a>
 				</nav>
 			</header>
 		</div>   
 		<div class="container bg-light p-5">
-			<h2 class="mb-5" th:text="${wordbook} ?: 'WordBook Default Title'"></h2>
+			<h2 class="mb-2" th:text="${vocbookInfo.name}"></h2>
+			<h6 class="pb-2" th:text="${vocbookInfo.description}"></h6>
 			<table class="table table-striped table-responsive-md">
  				<thead>
 					<tr>

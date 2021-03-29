@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -25,9 +26,22 @@ public class WordService {
 	@Value("classpath:csvFiles/providedVocBookWords.csv")
 	Resource resource;
 
-	public List<Word> displayWordsByVocBookId(int vocBookId) {
+	public List<Word> getWordsByVocBookId(int vocBookId) {
 		return (List<Word>) wordRepository.findByVocBookId(vocBookId);
 	}
+	
+	public Optional<Word> getWordById(int wordId) {
+		return wordRepository.findById(wordId);
+	}
+	
+	public List<Word> getWordsByVocBookIdAndPracticeAnswer(int vocBookId, String practiceAnswer) {
+		return (List<Word>) wordRepository.findByVocBookIdAndPracticeAnswer(vocBookId, practiceAnswer);
+	}
+	
+	public Word storeWord(Word word) {
+		return wordRepository.save(word);
+	}
+	
 	
 	@PostConstruct
 	public void createWords() {

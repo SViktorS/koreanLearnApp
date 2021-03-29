@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -26,8 +27,12 @@ public class VocBookService {
 	@Value("classpath:csvFiles/providedVocBooks.csv")
 	Resource resource;
 	
-	public List<VocBook> displayVocBooks() {
+	public List<VocBook> getAllVocBooks() {
 		return (List<VocBook>) vocBookRepository.findAll();
+	}
+	
+	public Optional<VocBook> getOneVocBook(int id) {
+		return vocBookRepository.findById(id);
 	}
 	
 	@PostConstruct
