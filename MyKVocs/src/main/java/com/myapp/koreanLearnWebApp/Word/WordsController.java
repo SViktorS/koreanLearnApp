@@ -49,7 +49,7 @@ public class WordsController {
     }
 	
 	@PostMapping("/vocbook/{vocbookId}/practice/{wordId}") 
-	public String practiceWordRegisterAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int vocbookId, @PathVariable int wordId) {
+	public String practiceWordRegisterAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId) {
         Word w = wordService.getWordById(wordId).get();
         w.setPracticeAnswer(answer);
         wordService.storeWord(w);

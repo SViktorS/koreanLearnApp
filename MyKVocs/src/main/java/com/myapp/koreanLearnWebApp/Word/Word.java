@@ -19,8 +19,6 @@ public class Word {
 	
 	private String practiceAnswer;
 	
-	private boolean skipped;
-	
 	private int vocBookId;
 	
 	public Word() {}
@@ -30,7 +28,6 @@ public class Word {
 		this.koreanWord = koreanWord;
 		this.vocBookId = vocBookId;
 		this.practiceAnswer = "";
-		this.skipped = false;
 	}
 	
 	public String getEnglishWord() {
@@ -71,13 +68,5 @@ public class Word {
 
 	public void setPracticeAnswer(String practiceAnswer) {
 		this.practiceAnswer = practiceAnswer;
-	}
-
-	public boolean isSkipped() {
-		return skipped;
-	}
-
-	public void setSkipped(boolean skipped) {
-		this.skipped = skipped;
 	}
 }
