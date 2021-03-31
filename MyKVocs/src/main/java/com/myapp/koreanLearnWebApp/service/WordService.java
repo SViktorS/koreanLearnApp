@@ -1,4 +1,4 @@
-package com.myapp.koreanLearnWebApp.Word;
+package com.myapp.koreanLearnWebApp.service;
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,13 +17,16 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import com.myapp.koreanLearnWebApp.model.Word;
+import com.myapp.koreanLearnWebApp.repository.WordRepository;
+
 @Service
 public class WordService {
 	
 	@Autowired
 	private WordRepository wordRepository;
 	
-	@Value("classpath:csvFiles/providedVocBookWords.csv")
+	@Value("classpath:static/csvFiles/providedVocBookWords.csv")
 	Resource resource;
 
 	public List<Word> getWordsByVocBookId(int vocBookId) {

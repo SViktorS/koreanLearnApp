@@ -1,4 +1,4 @@
-package com.myapp.koreanLearnWebApp.Word;
+package com.myapp.koreanLearnWebApp.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.myapp.koreanLearnWebApp.VocBook.VocBookService;
+import com.myapp.koreanLearnWebApp.model.Word;
+import com.myapp.koreanLearnWebApp.service.VocBookService;
+import com.myapp.koreanLearnWebApp.service.WordService;
 
 @Controller
-public class WordsController {
+public class MainController {
 	
 	@Autowired
 	private WordService wordService;
@@ -23,6 +27,11 @@ public class WordsController {
 	@Autowired
 	private VocBookService vocBookService;
 	
+	@GetMapping("/")
+    public String displayAllVocBooks(Model model) {
+        model.addAttribute("vocbooks", vocBookService.getAllVocBooks());
+        return "index";
+    }
 	
 	@GetMapping("/vocbook/{vocbookId}")
     public String displayWordsOfSpecificVocbook(Model model, @PathVariable int vocbookId) {
@@ -48,11 +57,37 @@ public class WordsController {
         return "practice";
     }
 	
-	@PostMapping("/vocbook/{vocbookId}/practice/{wordId}") 
-	public String practiceWordRegisterAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId) {
+	@GetMapping("/vocbook/{vocbookId}/practice/result/{wordId}")
+    public String showPracticeResultOfSpecificWord(Model model, @PathVariable int vocbookId, @PathVariable int wordId) {
+		Word w = wordService.getWordById(wordId).get();
+		boolean correctAnswer;
+		if(w.getKoreanWord() == w.getPracticeAnswer()) {
+			correctAnswer = true;
+		}
+		else {
+			correctAnswer = false;
+		}
+		model.addAttribute("correctAnswer", correctAnswer);
+		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
+		List<Word> vocbookListOnlyForSize = wordService.getWordsByVocBookId(vocbookId);
+		if(!vocbookList.isEmpty()) {
+			model.addAttribute("wordForPractice", w);
+			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()-vocbookList.size()));
+		}
+		else {
+			//TODO
+		}
+        model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
+        model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
+        return "result";
+    }
+	
+	
+	@PostMapping("/vocbook/{vocbookId}/practice/{wordId}")
+	public String registerPracticeWordAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
         Word w = wordService.getWordById(wordId).get();
         w.setPracticeAnswer(answer);
         wordService.storeWord(w);
-        return "redirect:/vocbook/{vocbookId}/practice";
+        return "redirect:/vocbook/{vocbookId}/practice/result/{wordId}";
 	}
 }

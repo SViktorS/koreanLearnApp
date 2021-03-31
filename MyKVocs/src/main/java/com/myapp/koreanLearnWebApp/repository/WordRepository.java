@@ -1,9 +1,11 @@
-package com.myapp.koreanLearnWebApp.Word;
+package com.myapp.koreanLearnWebApp.repository;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.myapp.koreanLearnWebApp.model.Word;
 
 @Repository
 public interface WordRepository extends CrudRepository<Word, Integer> {

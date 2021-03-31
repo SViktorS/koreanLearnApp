@@ -1,4 +1,4 @@
-package com.myapp.koreanLearnWebApp.VocBook;
+package com.myapp.koreanLearnWebApp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

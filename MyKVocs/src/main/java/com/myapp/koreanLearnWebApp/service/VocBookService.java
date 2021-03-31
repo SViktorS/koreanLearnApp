@@ -1,4 +1,4 @@
-package com.myapp.koreanLearnWebApp.VocBook;
+package com.myapp.koreanLearnWebApp.service;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.myapp.koreanLearnWebApp.Word.Word;
+import com.myapp.koreanLearnWebApp.model.VocBook;
+import com.myapp.koreanLearnWebApp.repository.VocBookRepository;
 
 @Service
 public class VocBookService {
@@ -24,7 +25,7 @@ public class VocBookService {
 	@Autowired
 	private VocBookRepository vocBookRepository;
 	
-	@Value("classpath:csvFiles/providedVocBooks.csv")
+	@Value("classpath:static/csvFiles/providedVocBooks.csv")
 	Resource resource;
 	
 	public List<VocBook> getAllVocBooks() {
