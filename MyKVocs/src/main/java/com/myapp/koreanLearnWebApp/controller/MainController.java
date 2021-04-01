@@ -44,16 +44,17 @@ public class MainController {
     public String practiceWordOfSpecificVocbook(Model model, @PathVariable int vocbookId) {
 		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
 		List<Word> vocbookListOnlyForSize = wordService.getWordsByVocBookId(vocbookId);
+		model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
+        model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
 		if(!vocbookList.isEmpty()) {
 			Collections.shuffle(vocbookList);
 			model.addAttribute("wordForPractice", vocbookList.get(0));
 			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()-vocbookList.size())+1);
 		}
 		else {
-			//TODO
+			model.addAttribute("allWordsOfVocbook", vocbookListOnlyForSize);
+			return "totalResults";
 		}
-        model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
-        model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
         return "practice";
     }
 	
@@ -70,15 +71,15 @@ public class MainController {
 		model.addAttribute("correctAnswer", correctAnswer);
 		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
 		List<Word> vocbookListOnlyForSize = wordService.getWordsByVocBookId(vocbookId);
+		model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
+        model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
+        model.addAttribute("wordForPractice", w);
 		if(!vocbookList.isEmpty()) {
-			model.addAttribute("wordForPractice", w);
 			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()-vocbookList.size()));
 		}
 		else {
-			//TODO
+			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()));
 		}
-        model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
-        model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
         return "result";
     }
 	
@@ -87,7 +88,17 @@ public class MainController {
 	public String registerPracticeWordAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
         Word w = wordService.getWordById(wordId).get();
         w.setPracticeAnswer(answer);
-        wordService.storeWord(w);
+        wordService.storeWordInDatabase(w);
         return "redirect:/vocbook/{vocbookId}/practice/result/{wordId}";
+	}
+	
+	@PostMapping("/deleteAnswers/{vocbookId}")
+	public String deleteAnswersOfAllWordsInSpecificVocbook(Model model, @PathVariable int vocbookId) {
+		List<Word> words = wordService.getWordsByVocBookId(vocbookId);
+		for(Word word : words) {
+			word.setPracticeAnswer("");
+			wordService.storeWordInDatabase(word);
+		}
+        return "redirect:/vocbook/{vocbookId}/practice";
 	}
 }

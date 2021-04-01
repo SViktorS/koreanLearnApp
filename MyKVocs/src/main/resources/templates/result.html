@@ -17,15 +17,13 @@
 		</div>   
 		<div class="container bg-light p-5">
 			<h2 class="mb-2" th:text="${vocbookInfo.name} + '- Practice - Word ' + ${progressPractice} + '/' + ${vocbookSize}"></h2>
-			<h6 class="pb-2">Practice by filling in the missing words. Click on the 'Done' button to see how many words you got correct.</h6>
-			
+			<h6 class="pb-2">Enter your answer into the textbox. Click on 'Submit' to see if your anwer is correct.</h6>		
 			<form action="#" th:action="@{/vocbook/{vocbookId}/practice(vocbookId=${vocbookInfo.vocBookId})}" method="get">
 				<table class="table table-striped table-responsive-md">
 	 				<thead>
 						<tr>
 							<th>English</th>
 							<th>Korean</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -41,7 +39,7 @@
 						</tr>
 					</tbody>
 				</table>
-		         <button type="submit" name="nextWord" class="btn btn-success">Next Word</button>
+		         <button th:text="${progressPractice} == ${vocbookSize} ? 'Show All Results' : 'Next Word'" type="submit" name="nextWord" class="btn btn-success" autofocus></button>
 		    </form>
 			 
 			

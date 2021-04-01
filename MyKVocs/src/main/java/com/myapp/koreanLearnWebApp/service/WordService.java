@@ -41,7 +41,7 @@ public class WordService {
 		return (List<Word>) wordRepository.findByVocBookIdAndPracticeAnswer(vocBookId, practiceAnswer);
 	}
 	
-	public Word storeWord(Word word) {
+	public Word storeWordInDatabase(Word word) {
 		return wordRepository.save(word);
 	}
 	
