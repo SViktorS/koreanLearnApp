@@ -32,6 +32,10 @@ public class VocBookService {
 		return (List<VocBook>) vocBookRepository.findAll();
 	}
 	
+	public Boolean checkForexistanceByName(String name) {
+		return vocBookRepository.existsByName(name);
+	}
+	
 	public Optional<VocBook> getOneVocBook(int id) {
 		return vocBookRepository.findById(id);
 	}
@@ -46,7 +50,9 @@ public class VocBookService {
 			for (CSVRecord record : records) {
 			    String name = record.get("name");
 			    String description = record.get("description");
-			    vocBookRepository.save(new VocBook(name, description)); 
+			    if(!checkForexistanceByName(name)) {
+			    	vocBookRepository.save(new VocBook(name, description));
+			    }
 			}
 		} catch (IOException e) {
 			System.err.print("File could not be opened");

@@ -41,6 +41,10 @@ public class WordService {
 		return (List<Word>) wordRepository.findByVocBookIdAndPracticeAnswer(vocBookId, practiceAnswer);
 	}
 	
+	public List<Word> getWordsByEnglishWordAndKoreanWordAndVocBookId(String englishWord, String koreanWord, int vocBookId) {
+		return wordRepository.findByEnglishWordAndKoreanWordAndVocBookId(englishWord, koreanWord, vocBookId);
+	}
+	
 	public Word storeWordInDatabase(Word word) {
 		return wordRepository.save(word);
 	}
@@ -57,7 +61,9 @@ public class WordService {
 			    String englishWord = record.get("englishWord");
 			    String koreanWord = record.get("koreanWord");
 			    String vocBookId = record.get("vocBookId");
-			    wordRepository.save(new Word(englishWord, koreanWord, Integer.parseInt(vocBookId))); 
+			    if(getWordsByEnglishWordAndKoreanWordAndVocBookId(englishWord, koreanWord, Integer.parseInt(vocBookId)).isEmpty()) {
+			    	 wordRepository.save(new Word(englishWord, koreanWord, Integer.parseInt(vocBookId))); 
+			    } 
 			}
 		} catch (IOException e) {
 			System.err.print("File could not be opened");

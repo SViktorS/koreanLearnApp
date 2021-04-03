@@ -83,7 +83,6 @@ public class MainController {
         return "result";
     }
 	
-	
 	@PostMapping("/vocbook/{vocbookId}/practice/{wordId}")
 	public String registerPracticeWordAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
         Word w = wordService.getWordById(wordId).get();
