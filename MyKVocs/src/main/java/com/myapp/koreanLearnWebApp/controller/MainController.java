@@ -40,6 +40,13 @@ public class MainController {
         return "vocbook";
     }
 	
+	@GetMapping("/vocbook/{vocbookId}/statistics")
+    public String displayStatisticsOfSpecificVocbook(Model model, @PathVariable int vocbookId) {
+		model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
+        model.addAttribute("words",  wordService.getWordsByVocBookId(vocbookId));
+        return "statistics";
+    }
+	
 	@GetMapping("/vocbook/{vocbookId}/practice")
     public String practiceWordOfSpecificVocbook(Model model, @PathVariable int vocbookId) {
 		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
@@ -87,6 +94,12 @@ public class MainController {
 	public String registerPracticeWordAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
         Word w = wordService.getWordById(wordId).get();
         w.setPracticeAnswer(answer);
+        if(w.getKoreanWord().equals(answer)) {
+			w.incRightAnswers();
+		}
+		else {
+			w.incWrongAnswers();
+		}
         wordService.storeWordInDatabase(w);
         return "redirect:/vocbook/{vocbookId}/practice/result/{wordId}";
 	}

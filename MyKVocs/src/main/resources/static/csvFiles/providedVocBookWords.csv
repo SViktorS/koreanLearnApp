@@ -1,6 +1,6 @@
 englishWord,koreanWord,vocBookId
-Korea,도시,1
-City,한국,1
+Korea,한국,1
+City,도시,1
 Name,이름,1
 I/me (formal),저,1
 I/me (informal),나,1
@@ -102,3 +102,6 @@ To be long,길다,3
 To be good,좋다,3
 Very,매우/아주,3
 Too (often used as ‘very’),너무,3
+To be good,좋다,4
+Very,매우/아주,4
+Too (often used as ‘very’),너무,4

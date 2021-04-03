@@ -19,6 +19,10 @@ public class Word {
 	
 	private String practiceAnswer;
 	
+	private int rightAnswers;
+	
+	private int wrongAnswers;
+	
 	private int vocBookId;
 	
 	public Word() {}
@@ -28,6 +32,8 @@ public class Word {
 		this.koreanWord = koreanWord;
 		this.vocBookId = vocBookId;
 		this.practiceAnswer = "";
+		this.rightAnswers = 0;
+		this.wrongAnswers = 0;
 	}
 	
 	public String getEnglishWord() {
@@ -68,5 +74,29 @@ public class Word {
 
 	public void setPracticeAnswer(String practiceAnswer) {
 		this.practiceAnswer = practiceAnswer;
+	}
+
+	public int getRightAnswers() {
+		return rightAnswers;
+	}
+
+	public void setRightAnswers(int rightAnswers) {
+		this.rightAnswers = rightAnswers;
+	}
+
+	public int getWrongAnswers() {
+		return wrongAnswers;
+	}
+	
+	public void incRightAnswers() {
+		this.rightAnswers+=1;
+	}
+	
+	public void incWrongAnswers() {
+		this.wrongAnswers+=1;
+	}
+
+	public void setWrongAnswers(int wrongAnswers) {
+		this.wrongAnswers = wrongAnswers;
 	}
 }

@@ -22,8 +22,9 @@
 					<tr th:each="vocbook : ${vocbooks}">
 						<td th:text="${vocbook.name}"></td>
 						<td>
-							<a th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}" class="btn btn-success">view</a>
-							<a th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}" class="btn btn-success">practice</a>
+							<a th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}" class="btn btn-success">View</a>
+							<a th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}" class="btn btn-success">Practice</a>
+							<a th:href="@{/vocbook/{id}/statistics(id=${vocbook.VocBookId})}" class="btn btn-success">Statistics</a>
 						</td>
 					</tr>
 				</tbody>
