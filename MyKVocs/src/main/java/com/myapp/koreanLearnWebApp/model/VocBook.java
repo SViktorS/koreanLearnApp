@@ -13,7 +13,6 @@ public class VocBook {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int vocBookId;
 	
-	@NotBlank(message = "ups...don't forget this one")
 	private String name;
 	
 	private String description;
