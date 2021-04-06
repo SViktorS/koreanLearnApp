@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import com.myapp.koreanLearnWebApp.model.VocBook;
 import com.myapp.koreanLearnWebApp.model.Word;
 import com.myapp.koreanLearnWebApp.repository.WordRepository;
 
@@ -25,6 +26,9 @@ public class WordService {
 	
 	@Autowired
 	private WordRepository wordRepository;
+	
+	@Autowired
+	private VocBookService vocBookService;
 	
 	@Value("classpath:static/csvFiles/providedVocBookWords.csv")
 	Resource resource;
@@ -62,7 +66,10 @@ public class WordService {
 			    String koreanWord = record.get("koreanWord");
 			    String vocBookId = record.get("vocBookId");
 			    if(getWordsByEnglishWordAndKoreanWordAndVocBookId(englishWord, koreanWord, Integer.parseInt(vocBookId)).isEmpty()) {
-			    	 wordRepository.save(new Word(englishWord, koreanWord, Integer.parseInt(vocBookId))); 
+			    	VocBook book = vocBookService.getOneVocBook(Integer.parseInt(vocBookId)).get();
+					book.incNumberWords();
+					vocBookService.storeVocBookInDatabase(book);
+			    	wordRepository.save(new Word(englishWord, koreanWord, Integer.parseInt(vocBookId))); 
 			    } 
 			}
 		} catch (IOException e) {

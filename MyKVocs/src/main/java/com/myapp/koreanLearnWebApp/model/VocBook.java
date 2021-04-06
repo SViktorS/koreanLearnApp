@@ -15,19 +15,34 @@ public class VocBook {
 	
 	private String name;
 	
-	private String description;
+	private int numberWords;
+	
+	private int currentProgress;
+	
+	private int timesPracticed;
+	
+	private int rightAnswersAllWords;
+	
+	private int wrongAnswersAllWords;
+	
+	private float bestResult;
 	
 	public VocBook() {}
 
-	public VocBook(String name, String description) {
+	public VocBook(String name) {
 		super();
 		this.name = name;
-		this.description = description;
+		this.numberWords = 0;
+		this.currentProgress = 0;
+		this.timesPracticed = 0;
+		this.rightAnswersAllWords = 0;
+		this.wrongAnswersAllWords = 0;
+		this.bestResult = 0.0f;
 	}
 
 	@Override
 	public String toString() {
-		return "VocBook [vocBookId=" + vocBookId + ", name=" + name + ", description=" + description + "]";
+		return "VocBook [vocBookId=" + vocBookId + ", name=" + name + "]";
 	}
 
 	public int getVocBookId() {
@@ -46,12 +61,71 @@ public class VocBook {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public int getNumberWords() {
+		return numberWords;
 	}
 	
+	public void incNumberWords() {
+		this.numberWords+=1;
+	}
+	
+	public void incCurrentProgress() {
+		this.currentProgress+=1;
+	}
+	
+	public void incTimesPracticed() {
+		this.timesPracticed+=1;
+	}
+	
+	public void incRightAnswersAllWords() {
+		this.rightAnswersAllWords+=1;
+	}
+	
+	public void incWrongAnswersAllWords() {
+		this.wrongAnswersAllWords+=1;
+	}
+
+	public void setNumberWords(int numberWords) {
+		this.numberWords = numberWords;
+	}
+
+	public int getCurrentProgress() {
+		return currentProgress;
+	}
+
+	public void setCurrentProgress(int currentProgress) {
+		this.currentProgress = currentProgress;
+	}
+
+	public int getTimesPracticed() {
+		return timesPracticed;
+	}
+
+	public void setTimesPracticed(int timesPracticed) {
+		this.timesPracticed = timesPracticed;
+	}
+
+	public int getRightAnswersAllWords() {
+		return rightAnswersAllWords;
+	}
+
+	public void setRightAnswersAllWords(int rightAnswersAllWords) {
+		this.rightAnswersAllWords = rightAnswersAllWords;
+	}
+
+	public int getWrongAnswersAllWords() {
+		return wrongAnswersAllWords;
+	}
+
+	public void setWrongAnswersAllWords(int wrongAnswersAllWords) {
+		this.wrongAnswersAllWords = wrongAnswersAllWords;
+	}
+
+	public float getBestResult() {
+		return bestResult;
+	}
+
+	public void setBestResult(float bestResult) {
+		this.bestResult = bestResult;
+	}
 }

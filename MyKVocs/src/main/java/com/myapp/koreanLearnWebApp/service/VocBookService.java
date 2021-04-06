@@ -17,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.myapp.koreanLearnWebApp.model.VocBook;
+import com.myapp.koreanLearnWebApp.model.Word;
 import com.myapp.koreanLearnWebApp.repository.VocBookRepository;
 
 @Service
@@ -40,6 +41,10 @@ public class VocBookService {
 		return vocBookRepository.findById(id);
 	}
 	
+	public VocBook storeVocBookInDatabase(VocBook vocBook) {
+		return vocBookRepository.save(vocBook);
+	}
+	
 	@PostConstruct
 	public void createVocBooks() {
 		File csvFile;
@@ -49,9 +54,8 @@ public class VocBookService {
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			for (CSVRecord record : records) {
 			    String name = record.get("name");
-			    String description = record.get("description");
 			    if(!checkForexistanceByName(name)) {
-			    	vocBookRepository.save(new VocBook(name, description));
+			    	vocBookRepository.save(new VocBook(name));
 			    }
 			}
 		} catch (IOException e) {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.myapp.koreanLearnWebApp.model.VocBook;
 import com.myapp.koreanLearnWebApp.model.Word;
 import com.myapp.koreanLearnWebApp.service.VocBookService;
 import com.myapp.koreanLearnWebApp.service.WordService;
@@ -50,16 +51,14 @@ public class MainController {
 	@GetMapping("/vocbook/{vocbookId}/practice")
     public String practiceWordOfSpecificVocbook(Model model, @PathVariable int vocbookId) {
 		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
-		List<Word> vocbookListOnlyForSize = wordService.getWordsByVocBookId(vocbookId);
-		model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
+		List<Word> vocbookListForTotalResults = wordService.getWordsByVocBookId(vocbookId);
         model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
 		if(!vocbookList.isEmpty()) {
 			Collections.shuffle(vocbookList);
 			model.addAttribute("wordForPractice", vocbookList.get(0));
-			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()-vocbookList.size())+1);
 		}
 		else {
-			model.addAttribute("allWordsOfVocbook", vocbookListOnlyForSize);
+			model.addAttribute("allWordsOfVocbook", vocbookListForTotalResults);
 			return "totalResults";
 		}
         return "practice";
@@ -77,38 +76,55 @@ public class MainController {
 		}
 		model.addAttribute("correctAnswer", correctAnswer);
 		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
-		List<Word> vocbookListOnlyForSize = wordService.getWordsByVocBookId(vocbookId);
-		model.addAttribute("vocbookSize", vocbookListOnlyForSize.size());
         model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
         model.addAttribute("wordForPractice", w);
-		if(!vocbookList.isEmpty()) {
-			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()-vocbookList.size()));
-		}
-		else {
-			model.addAttribute("progressPractice", (vocbookListOnlyForSize.size()));
-		}
         return "result";
     }
 	
 	@PostMapping("/vocbook/{vocbookId}/practice/{wordId}")
 	public String registerPracticeWordAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
+		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
         Word w = wordService.getWordById(wordId).get();
-        w.setPracticeAnswer(answer);
+    	w.setPracticeAnswer(answer);
         if(w.getKoreanWord().equals(answer)) {
 			w.incRightAnswers();
+			vocBook.incRightAnswersAllWords();
 		}
 		else {
 			w.incWrongAnswers();
+			vocBook.incWrongAnswersAllWords();
 		}
-        wordService.storeWordInDatabase(w);
+        vocBook.incCurrentProgress();
+        if(vocBook.getCurrentProgress()==vocBook.getNumberWords()) {
+        	vocBook.incTimesPracticed();
+        	int vocBookRight = vocBook.getRightAnswersAllWords();
+        	int vocBookWrong = vocBook.getWrongAnswersAllWords();
+        	float percentageRight;
+        	if(vocBookRight + vocBookWrong == 0) {
+        		percentageRight = 0.0f;
+        	}
+        	else {
+        		percentageRight = vocBookRight * 100 / (vocBookRight + vocBookWrong);
+        	}
+        	if(percentageRight > vocBook.getBestResult()) {
+        		vocBook.setBestResult(percentageRight);
+        	}
+        }
+        vocBookService.storeVocBookInDatabase(vocBook);
+        wordService.storeWordInDatabase(w);  
         return "redirect:/vocbook/{vocbookId}/practice/result/{wordId}";
 	}
 	
 	@PostMapping("/deleteAnswers/{vocbookId}")
-	public String deleteAnswersOfAllWordsInSpecificVocbook(Model model, @PathVariable int vocbookId) {
+	public String deleteAnswersAndResetCurrentProgressOfAllWordsInSpecificVocbook(Model model, @PathVariable int vocbookId) {
+		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
+		vocBook.setCurrentProgress(0);
+		vocBook.setRightAnswersAllWords(0);
+		vocBook.setWrongAnswersAllWords(0);
+		vocBookService.storeVocBookInDatabase(vocBook);
 		List<Word> words = wordService.getWordsByVocBookId(vocbookId);
 		for(Word word : words) {
-			word.setPracticeAnswer("");
+			word.setPracticeAnswer("");		
 			wordService.storeWordInDatabase(word);
 		}
         return "redirect:/vocbook/{vocbookId}/practice";

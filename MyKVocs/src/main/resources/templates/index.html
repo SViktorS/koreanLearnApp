@@ -8,24 +8,39 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 	</head>
 	<body style="font-family: Bookman, URW Bookman L, serif;">
-		<div style="margin: 5px 40px 0px 20px; text-align:center">
+		<div style="margin: 5px 40px 15px 20px; text-align:center">
 		    <a href="/">
 		    	<img style="width:20%;height:20%" th:src="@{/images/mykvoclogo.png}"/>
 		    </a>
+		    <a style="float:right" class="text-dark mt-3" href="/"><span class="p-2" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; border-radius:10px; border-width: 1px; border-color:#3e006bff; background-color:white; color:#3e006bff">Home</span></a>
 		</div>  
 		<h2 class="mb-3 ml-5"><span class="p-2" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; border-radius:10px; border-width: 1px; border-color:#3e006bff; background-color:white; color:#3e006bff">VocBooks</span></h2>
 		<div class="p-3 mb-5 mx-5" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; background-color:#e6e6ff; border-radius: 10px; border-width: 1px; border-color:#3e006bff;">
 			<div class="row">
 				<div th:each="vocbook : ${vocbooks}">
-					<div class="card m-3" style="border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1);">
-						<div class="card-header" style="font-size:25px;" th:text="${vocbook.name}"></div>
-						<div class="card-body text-dark">
-							<h5 class="card-title">
-								<a class="card-link" style="color:#8585ad" th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}">View</a>
-								<a class="card-link" style="color:#8585ad" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice</a>
-								<a class="card-link" style="color:#8585ad" th:href="@{/vocbook/{id}/statistics(id=${vocbook.VocBookId})}">Statistics</a>
-							</h5>
-							<p class="card-text">Statistics stuff maybe...</p>
+					<div class="card m-2" th:style="${vocbook.bestResult} >= 50.0 ? 'border-color:rgb(0, 255, 0); box-shadow: 0px 0px 8px 0.3px rgb(0, 255, 0)' : 'border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1)'" th:styleappend ="${vocbook.bestResult} < 50.0 and ${vocbook.timesPracticed} > 0 ? 'border-color:rgb(255, 0, 0); box-shadow: 0px 0px 8px 0.3px rgb(255, 0, 0)' : 'border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1)'">
+						<div class="card-header" th:utext="'<b>'+${vocbook.name}+'</b>'" style="font-size:20px"></div>
+						<div class="card-body py-1">
+							<h5 class="card-title pt-2">
+								<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}">View</a>
+								<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice</a>
+								<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}/statistics(id=${vocbook.VocBookId})}">Statistics</a>
+							</h5>	
+						</div>
+						<ul class="list-group list-group-flush">
+						    <li class="list-group-item py-1">
+						    	<p class="card-text" th:if="${vocbook.currentProgress} != ${vocbook.numberWords}" th:text="'Current Progress: ' + ${vocbook.currentProgress} + '/' + ${vocbook.numberWords}"></p>
+						    	<a class="btn btn-outline-primary btn-sm my-0 py-0" th:if="${vocbook.currentProgress} == ${vocbook.numberWords}" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice Results Available</a>
+						    </li>
+						    <li class="list-group-item py-1">
+								<p class="card-text" th:text="'Completely practiced: ' + ${vocbook.timesPracticed} + ' times'"></p>
+							</li>
+						    <li class="list-group-item py-1">
+						    	<p class="card-text" th:text="'Best practice run: ' + ${#numbers.formatDecimal(vocbook.bestResult, 1, 'POINT', 2, 'COMMA')} + '% correct'" th:style="${vocbook.bestResult} >= 50.0 ? 'color:green' : ''" th:styleappend ="${vocbook.bestResult} < 50.0 and ${vocbook.timesPracticed} > 0 ? 'color:red' : ''"></p>
+						    </li>
+						</ul>
+						<div class="card-body py-1">
+							<p class="card-text"><small class="text-muted">Not practiced yet</small></p>
 						</div>
 					</div>
 				</div>
