@@ -10,15 +10,7 @@ The result (how many correct/incorrect words) are displayed in the book's descri
 Information
 ----------------------------------------------------------------------------------------------------
 This project exists mainly to train my Spring/Java abilities. Therefore, mostly everything happens on the server-side. 
-Thymeleaf is used to display the data.
-Later I might use Vue.js to decrease the number of server calls and do more on the client-side.
+Thymeleaf is used to display the data. For styles Bootstrap 4 is mostly used.
 
-Status
-----------------------------------------------------------------------------------------------------
-+ Logic and fundament for providing hardcoded books (done)
-+ Basic ui (done)
-+ Practice feature
-+ Create own books/add words/delete words/update words
-+ Improve ui
 
  
