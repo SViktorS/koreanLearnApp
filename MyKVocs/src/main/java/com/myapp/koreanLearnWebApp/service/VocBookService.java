@@ -23,6 +23,8 @@ import com.myapp.koreanLearnWebApp.repository.VocBookRepository;
 @Service
 public class VocBookService {
 
+	static private String INITIAL_VOCBOOK = "Lesson 1";
+	
 	@Autowired
 	private VocBookRepository vocBookRepository;
 	
@@ -55,7 +57,11 @@ public class VocBookService {
 			for (CSVRecord record : records) {
 			    String name = record.get("name");
 			    if(!checkForexistanceByName(name)) {
-			    	vocBookRepository.save(new VocBook(name));
+			    	VocBook book = new VocBook(name);
+			    	if(name.equals(INITIAL_VOCBOOK)) {
+			    		book.setDeskVocBook(true);
+			    	}
+			    	vocBookRepository.save(book);
 			    }
 			}
 		} catch (IOException e) {

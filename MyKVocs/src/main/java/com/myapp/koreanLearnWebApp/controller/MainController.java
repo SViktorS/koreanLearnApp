@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myapp.koreanLearnWebApp.model.VocBook;
@@ -30,7 +27,17 @@ public class MainController {
 	
 	@GetMapping("/")
     public String displayAllVocBooks(Model model) {
-        model.addAttribute("vocbooks", vocBookService.getAllVocBooks());
+		List<VocBook> vocBooks = vocBookService.getAllVocBooks();
+		int lessonProgress = 0;
+		for(VocBook vocBook : vocBooks) {
+			if(vocBook.isDeskVocBook() || vocBook.isHiddenVocBook()) {
+				lessonProgress+=1;
+			}
+		}
+		model.addAttribute("lessonProgress", lessonProgress);
+		model.addAttribute("totalNumberOfLessons", vocBooks.size());
+		model.addAttribute("vocbooks", vocBookService.getAllVocBooks());
+        
         return "index";
     }
 	
@@ -75,7 +82,6 @@ public class MainController {
 			correctAnswer = false;
 		}
 		model.addAttribute("correctAnswer", correctAnswer);
-		List<Word> vocbookList = wordService.getWordsByVocBookIdAndPracticeAnswer(vocbookId, "");
         model.addAttribute("vocbookInfo", vocBookService.getOneVocBook(vocbookId).get());
         model.addAttribute("wordForPractice", w);
         return "result";
@@ -95,6 +101,7 @@ public class MainController {
 			vocBook.incWrongAnswersAllWords();
 		}
         vocBook.incCurrentProgress();
+        vocBook.setLastPracticeDate();
         if(vocBook.getCurrentProgress()==vocBook.getNumberWords()) {
         	vocBook.incTimesPracticed();
         	int vocBookRight = vocBook.getRightAnswersAllWords();
@@ -128,5 +135,36 @@ public class MainController {
 			wordService.storeWordInDatabase(word);
 		}
         return "redirect:/vocbook/{vocbookId}/practice";
+	}
+	
+	@PostMapping("/hideVocBook/{vocbookId}")
+	public String makeSpecificVocbookHidden(Model model, @PathVariable int vocbookId) {
+		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
+		vocBook.setHiddenVocBook(true);
+		vocBook.setDeskVocBook(false);
+		vocBookService.storeVocBookInDatabase(vocBook);
+        return "redirect:/";
+	}
+	
+	@PostMapping("/makeVisibleVocBook/{vocbookId}")
+	public String makeSpecificVocbookVisible(Model model, @PathVariable int vocbookId) {
+		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
+		vocBook.setHiddenVocBook(false);
+		vocBook.setDeskVocBook(true);
+		vocBookService.storeVocBookInDatabase(vocBook);
+        return "redirect:/";
+	}
+	
+	@PostMapping("/addNewLesson/")
+	public String addNewLessonToLearn(Model model) {
+		List<VocBook> vocBooks = vocBookService.getAllVocBooks();
+		for(VocBook vocBook : vocBooks) {
+			if(!vocBook.isDeskVocBook() && !vocBook.isHiddenVocBook()) {
+				vocBook.setDeskVocBook(true);
+				vocBookService.storeVocBookInDatabase(vocBook);
+				break;
+			}
+		}
+        return "redirect:/";
 	}
 }

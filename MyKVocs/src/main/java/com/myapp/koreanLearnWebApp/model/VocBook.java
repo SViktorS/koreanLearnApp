@@ -1,9 +1,13 @@
 package com.myapp.koreanLearnWebApp.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -27,6 +31,13 @@ public class VocBook {
 	
 	private float bestResult;
 	
+	@Temporal(TemporalType.DATE)
+	private Date lastPracticeDate;
+	
+	private boolean isDeskVocBook;
+	
+	private boolean isHiddenVocBook;
+	
 	public VocBook() {}
 
 	public VocBook(String name) {
@@ -38,6 +49,8 @@ public class VocBook {
 		this.rightAnswersAllWords = 0;
 		this.wrongAnswersAllWords = 0;
 		this.bestResult = 0.0f;
+		this.isDeskVocBook = false;
+		this.isHiddenVocBook = false;
 	}
 
 	@Override
@@ -127,5 +140,29 @@ public class VocBook {
 
 	public void setBestResult(float bestResult) {
 		this.bestResult = bestResult;
+	}
+	
+	public void setLastPracticeDate() {
+		this.lastPracticeDate = new Date();
+	}
+	
+	public Date getLastPracticeDate() {
+		return this.lastPracticeDate;
+	}
+
+	public boolean isDeskVocBook() {
+		return isDeskVocBook;
+	}
+
+	public void setDeskVocBook(boolean isDeskVocBook) {
+		this.isDeskVocBook = isDeskVocBook;
+	}
+
+	public boolean isHiddenVocBook() {
+		return isHiddenVocBook;
+	}
+
+	public void setHiddenVocBook(boolean isHiddenVocBook) {
+		this.isHiddenVocBook = isHiddenVocBook;
 	}
 }
