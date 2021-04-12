@@ -7,74 +7,45 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 	</head>
-	<body style="font-family: Bookman, URW Bookman L, serif;">
-		<div style="margin: 5px 40px 15px 20px; text-align:center">
+	<body style="font-family: Bookman, URW Bookman L, serif; background-color:#cd2e3ae0">
+		<div class="container" style="padding:20px 0 20px 0">
 		    <a href="/">
-		    	<img style="width:20%;height:20%" th:src="@{/images/mykvoclogo.png}"/>
+		    	<img style="width:30%;height:30%" th:src="@{/images/mykvoclogo.png}"/>
 		    </a>
-		    <a style="float:right" class="text-dark mt-3" href="/"><span class="p-2" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; border-radius:10px; border-width: 1px; border-color:#3e006bff; background-color:white; color:#3e006bff">Home</span></a>
+		    <a style="float:right" class="text-dark mt-3" href="/"><span class="p-2" style="border-style:solid; border-width: 1px; border-color:white; color:white">Home</span></a>
 		</div>  
-		<h2 class="mb-3 ml-5"><span class="p-2" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; border-radius:10px; border-width: 1px; border-color:#3e006bff; background-color:white; color:#3e006bff">Learning Desk</span></h2>
-		<div class="p-3 mb-5 mx-5" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; background-color:#e6e6ff; border-radius: 10px; border-width: 1px; border-color:#3e006bff;">
-			<div>
-				<form action="#" th:action="@{/addNewLesson/}" method="post">
-					<button type="submit" class="btn btn-primary">Add New Lesson</button>
-					<p class="my-0" th:text="'Total Lesson Progress: ' + ${lessonProgress} + '/' + ${totalNumberOfLessons} + ' Lessons'"></p>
-					<p>(More lessons will be added in the future)</p>
-				</form>
-				<hr>
-			</div>
-			<div class="row">
-				<div th:each="vocbook : ${vocbooks}">
-					<div th:if=${vocbook.isDeskVocBook} class="card m-4" th:style="${vocbook.bestResult} >= 50.0 ? 'border-color:rgb(0, 255, 0); box-shadow: 0px 0px 8px 0.3px rgb(0, 255, 0)' : 'border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1)'" th:styleappend ="${vocbook.bestResult} < 50.0 and ${vocbook.timesPracticed} > 0 ? 'border-color:rgb(255, 0, 0); box-shadow: 0px 0px 8px 0.3px rgb(255, 0, 0)' : 'border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1)'">
-						<div class="card-header">
-							<h5 th:utext="'<b>'+${vocbook.name}+'</b>'" style="font-size:20px; float:left"></h5>
-							<form style="float:right" action="#" th:action="@{/hideVocBook/{id}(id=${vocbook.VocBookId})}" method="post">
-								<button type="submit" class="btn btn-outline-danger">Put Into Drawer</button>
-							</form>
-						</div>
-						<div class="card-body py-1">
-							<h5 class="card-title pt-2">
-								<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}">View</a>
-								<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice</a>
-								<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}/statistics(id=${vocbook.VocBookId})}">Statistics</a>
-							</h5>	
-						</div>
-						<ul class="list-group list-group-flush">
-						    <li class="list-group-item py-1">
-						    	<p class="card-text" th:if="${vocbook.currentProgress} != ${vocbook.numberWords}" th:text="'Current Progress: ' + ${vocbook.currentProgress} + '/' + ${vocbook.numberWords}"></p>
-						    	<a class="btn btn-outline-primary btn-sm my-0 py-0" th:if="${vocbook.currentProgress} == ${vocbook.numberWords}" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice Results Available</a>
-						    </li>
-						    <li class="list-group-item py-1">
-								<p class="card-text" th:text="'Completely practiced: ' + ${vocbook.timesPracticed} + ' times'"></p>
-							</li>
-						    <li class="list-group-item py-1">
-						    	<p class="card-text" th:text="'Best practice run: ' + ${#numbers.formatDecimal(vocbook.bestResult, 1, 'POINT', 2, 'COMMA')} + '% correct'" th:style="${vocbook.bestResult} >= 50.0 ? 'color:green' : ''" th:styleappend ="${vocbook.bestResult} < 50.0 and ${vocbook.timesPracticed} > 0 ? 'color:red' : ''"></p>
-						    </li>
-						</ul>
-						<div class="card-body py-1">
-							<p class="card-text"><small class="text-muted" th:text="${vocbook.lastPracticeDate} ? 'Last practice on: ' + ${vocbook.lastPracticeDate} : 'Not practiced yet'"></small></p>
-						</div>
-					</div>
+		<div class="py-4" style="background-color:#e6f7ff">
+			<div class="container" style="border-style:solid; border-width: 4px; border-color:#006999;">
+				<div>
+					<h2 class="my-3" style="color:#006999">Learning Desk <span style="font-size:20px" th:text="'(Total Lesson Progress: ' + ${lessonProgress} + '/' + ${totalNumberOfLessons} + ' Lessons)'"></span></h2>
 				</div>
-			</div>
-		</div> 
-		<h2 class="mb-3 ml-5"><span class="p-2" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; border-radius:10px; border-width: 1px; border-color:#3e006bff; background-color:white;">Desk Drawer</span></h2>
-		<div class="p-3 mb-5 mx-5" style="box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1); border-style:solid; background-color:rgb(192, 192, 192); border-radius: 10px; border-width: 1px; border-color:#3e006bff;">
-			<a class="btn btn-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-			  Open/Close Desk Drawer
-			</a>
-			<hr>	
-			<div class="collapse" id="collapseExample">
+				<div>
+					<hr>
+					<form action="#" th:action="@{/addNewLesson/}" method="post">
+						<button type="submit" class="btn btn-outline-info">Add New Lesson</button>
+					</form>
+					<hr>
+				</div>
 				<div class="row">
 					<div th:each="vocbook : ${vocbooks}">
-						<div th:if=${vocbook.isHiddenVocBook} class="card bg-dark m-4" th:style="${vocbook.bestResult} >= 50.0 ? 'border-color:rgb(0, 255, 0); box-shadow: 0px 0px 8px 0.3px rgb(0, 255, 0)' : 'border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1)'" th:styleappend ="${vocbook.bestResult} < 50.0 and ${vocbook.timesPracticed} > 0 ? 'border-color:rgb(255, 0, 0); box-shadow: 0px 0px 8px 0.3px rgb(255, 0, 0)' : 'border-color:#3e006bff; box-shadow: 0px 0px 8px 0.3px rgba(0,0,0,1)'">
-							<div class="card-header" th:utext="'<b>'+${vocbook.name}+'</b>'" style="font-size:20px; color:white"></div>
+						<div th:if=${vocbook.isDeskVocBook} class="card m-4">
+							<div class="card-header">
+								<h5 th:utext="'<b>'+${vocbook.name}+'</b>'" style="font-size:20px; float:left"></h5>
+								<form style="float:right" action="#" th:action="@{/vocbookIntoDrawer/{id}(id=${vocbook.VocBookId})}" method="post">
+									<button type="submit" class="btn btn-outline-danger">Put Into Drawer</button>
+								</form>
+							</div>
+							<div class="card-body py-1">
+								<h5 class="card-title pt-2">
+									<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}(id=${vocbook.VocBookId})}">View</a>
+									<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice</a>
+									<a class="btn btn-outline-primary" th:href="@{/vocbook/{id}/statistics(id=${vocbook.VocBookId})}">Statistics</a>
+								</h5>	
+							</div>
 							<ul class="list-group list-group-flush">
 							    <li class="list-group-item py-1">
-							    	<form action="#" th:action="@{/makeVisibleVocBook/{id}(id=${vocbook.VocBookId})}" method="post">
-										<button type="submit" class="btn btn-outline-success">Put On Desk Again</button>
-									</form>
+							    	<p class="card-text" th:if="${vocbook.currentProgress} != ${vocbook.numberWords}" th:text="'Current Progress: ' + ${vocbook.currentProgress} + '/' + ${vocbook.numberWords}"></p>
+							    	<a class="btn btn-outline-primary btn-sm my-0 py-0" th:if="${vocbook.currentProgress} == ${vocbook.numberWords}" th:href="@{/vocbook/{id}/practice(id=${vocbook.VocBookId})}">Practice Results Available</a>
 							    </li>
 							    <li class="list-group-item py-1">
 									<p class="card-text" th:text="'Completely practiced: ' + ${vocbook.timesPracticed} + ' times'"></p>
@@ -84,7 +55,44 @@
 							    </li>
 							</ul>
 							<div class="card-body py-1">
-								<p class="card-text"><small style="color:white" th:text="${vocbook.lastPracticeDate} ? 'Last practice on: ' + ${vocbook.lastPracticeDate} : 'Not practiced yet'"></small></p>
+								<p class="card-text"><small class="text-muted" th:text="${vocbook.lastPracticeDate} ? 'Last practice on: ' + ${vocbook.lastPracticeDate} : 'Not practiced yet'"></small></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<div class="py-4 mb-4" style="background-color:#f2f2f2;">
+			<div class="container" style="border-style:solid; border-width: 4px; border-color:#595959;">
+				<div>
+					<h2 class="my-3" style="color:#595959">Desk Drawer</h2>
+				</div>
+				<hr>
+				<a class="btn btn-outline-dark" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+				  Open/Close Desk Drawer
+				</a>
+				<hr>	
+				<div class="collapse" id="collapseExample">
+					<div class="row">
+						<div th:each="vocbook : ${vocbooks}">
+							<div th:if=${vocbook.isHiddenVocBook} class="card bg-dark m-4">
+								<div class="card-header" th:utext="'<b>'+${vocbook.name}+'</b>'" style="font-size:20px; color:white"></div>
+								<ul class="list-group list-group-flush">
+								    <li class="list-group-item py-1">
+								    	<form action="#" th:action="@{/vocbookOnDesk/{id}(id=${vocbook.VocBookId})}" method="post">
+											<button type="submit" class="btn btn-outline-success">Put On Desk Again</button>
+										</form>
+								    </li>
+								    <li class="list-group-item py-1">
+										<p class="card-text" th:text="'Completely practiced: ' + ${vocbook.timesPracticed} + ' times'"></p>
+									</li>
+								    <li class="list-group-item py-1">
+								    	<p class="card-text" th:text="'Best practice run: ' + ${#numbers.formatDecimal(vocbook.bestResult, 1, 'POINT', 2, 'COMMA')} + '% correct'" th:style="${vocbook.bestResult} >= 50.0 ? 'color:green' : ''" th:styleappend ="${vocbook.bestResult} < 50.0 and ${vocbook.timesPracticed} > 0 ? 'color:red' : ''"></p>
+								    </li>
+								</ul>
+								<div class="card-body py-1">
+									<p class="card-text"><small style="color:white" th:text="${vocbook.lastPracticeDate} ? 'Last practice on: ' + ${vocbook.lastPracticeDate} : 'Not practiced yet'"></small></p>
+								</div>
 							</div>
 						</div>
 					</div>

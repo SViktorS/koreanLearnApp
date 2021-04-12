@@ -28,18 +28,22 @@ public class MainController {
 	@GetMapping("/")
     public String displayAllVocBooks(Model model) {
 		List<VocBook> vocBooks = vocBookService.getAllVocBooks();
+		int lessonProgress = calculateLessonPracticeProgress(vocBooks);
+		model.addAttribute("lessonProgress", lessonProgress);
+		model.addAttribute("totalNumberOfLessons", vocBooks.size());
+		model.addAttribute("vocbooks", vocBookService.getAllVocBooks());     
+        return "index";
+    }
+	
+	private static int calculateLessonPracticeProgress(List<VocBook> vocBooks) {
 		int lessonProgress = 0;
 		for(VocBook vocBook : vocBooks) {
 			if(vocBook.isDeskVocBook() || vocBook.isHiddenVocBook()) {
 				lessonProgress+=1;
 			}
 		}
-		model.addAttribute("lessonProgress", lessonProgress);
-		model.addAttribute("totalNumberOfLessons", vocBooks.size());
-		model.addAttribute("vocbooks", vocBookService.getAllVocBooks());
-        
-        return "index";
-    }
+		return lessonProgress;
+	}
 	
 	@GetMapping("/vocbook/{vocbookId}")
     public String displayWordsOfSpecificVocbook(Model model, @PathVariable int vocbookId) {
@@ -88,7 +92,7 @@ public class MainController {
     }
 	
 	@PostMapping("/vocbook/{vocbookId}/practice/{wordId}")
-	public String registerPracticeWordAnswer(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
+	public String registerPracticeWordAnswerAndUpdateStatistics(@RequestParam("answer") String answer, Model model, @PathVariable int wordId, @PathVariable int vocbookId) {
 		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
         Word w = wordService.getWordById(wordId).get();
     	w.setPracticeAnswer(answer);
@@ -102,24 +106,29 @@ public class MainController {
 		}
         vocBook.incCurrentProgress();
         vocBook.setLastPracticeDate();
-        if(vocBook.getCurrentProgress()==vocBook.getNumberWords()) {
+        if(vocBook.getCurrentProgress() == vocBook.getNumberWords()) {
         	vocBook.incTimesPracticed();
-        	int vocBookRight = vocBook.getRightAnswersAllWords();
-        	int vocBookWrong = vocBook.getWrongAnswersAllWords();
-        	float percentageRight;
-        	if(vocBookRight + vocBookWrong == 0) {
-        		percentageRight = 0.0f;
-        	}
-        	else {
-        		percentageRight = vocBookRight * 100 / (vocBookRight + vocBookWrong);
-        	}
-        	if(percentageRight > vocBook.getBestResult()) {
-        		vocBook.setBestResult(percentageRight);
-        	}
+        	vocBook = setBestResultAndSuccessPercentageOfASpecificVocbook(vocBook);
         }
         vocBookService.storeVocBookInDatabase(vocBook);
         wordService.storeWordInDatabase(w);  
         return "redirect:/vocbook/{vocbookId}/practice/result/{wordId}";
+	}
+	
+	private static VocBook setBestResultAndSuccessPercentageOfASpecificVocbook(VocBook vocBook) {   	
+    	int vocBookRight = vocBook.getRightAnswersAllWords();
+    	int vocBookWrong = vocBook.getWrongAnswersAllWords();
+    	float percentageRight;
+    	if(vocBookRight + vocBookWrong == 0) {
+    		percentageRight = 0.0f;
+    	}
+    	else {
+    		percentageRight = vocBookRight * 100 / (vocBookRight + vocBookWrong);
+    	}
+    	if(percentageRight > vocBook.getBestResult()) {
+    		vocBook.setBestResult(percentageRight);
+    	}
+		return vocBook;
 	}
 	
 	@PostMapping("/deleteAnswers/{vocbookId}")
@@ -137,8 +146,8 @@ public class MainController {
         return "redirect:/vocbook/{vocbookId}/practice";
 	}
 	
-	@PostMapping("/hideVocBook/{vocbookId}")
-	public String makeSpecificVocbookHidden(Model model, @PathVariable int vocbookId) {
+	@PostMapping("/vocbookIntoDrawer/{vocbookId}")
+	public String putSpecificVocbookIntoDeskDrawer(Model model, @PathVariable int vocbookId) {
 		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
 		vocBook.setHiddenVocBook(true);
 		vocBook.setDeskVocBook(false);
@@ -146,8 +155,8 @@ public class MainController {
         return "redirect:/";
 	}
 	
-	@PostMapping("/makeVisibleVocBook/{vocbookId}")
-	public String makeSpecificVocbookVisible(Model model, @PathVariable int vocbookId) {
+	@PostMapping("/vocbookOnDesk/{vocbookId}")
+	public String putSpecificVocbookOnDesk(Model model, @PathVariable int vocbookId) {
 		VocBook vocBook = vocBookService.getOneVocBook(vocbookId).get();
 		vocBook.setHiddenVocBook(false);
 		vocBook.setDeskVocBook(true);
