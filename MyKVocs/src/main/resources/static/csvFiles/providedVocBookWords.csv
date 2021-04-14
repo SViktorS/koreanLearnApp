@@ -33,7 +33,7 @@ To be,이다,1
 Yes,네,1
 No,아니,1
 Country,나라,2
-Bag/backpack,가방,2
+Bag/Backpack,가방,2
 Window,창문,2
 Magazine,잡지,2
 Room,방,2
@@ -78,7 +78,7 @@ Mouth/Lips,입,3
 Stomach,배,3
 Bus,버스,3
 Boat,배,3
-Us/we,우리,3
+Us/We,우리,3
 To eat,먹다,3
 To go,가다,3
 To meet,만나다,3
@@ -97,10 +97,11 @@ To be old (not age),낡다,3
 To be expensive,비싸다,3
 To be not expensive,싸다,3
 To be beautiful,아름답다,3
-To be fat/chubby,뚱뚱하다,3
+To be fat/Chubby,뚱뚱하다,3
 To be long,길다,3
 To be good,좋다,3
-Very,매우/아주,3
+Very(1),매우,3
+Very(2),아주,3
 Too (often used as ‘very’),너무,3
 Street,길,4
 Street/Road,거리,4
@@ -108,7 +109,7 @@ Hand,손,4
 English,영어,4
 Taxi,택시,4
 Train,열차,4
-Train/subway station,역,4
+Train/Subway station,역,4
 Bus stop,버스 정류장,4
 Airplane,비행기,4
 Bicycle,자전고,4
@@ -144,7 +145,7 @@ To be tired,피곤하다,4
 To be different,다르다,4
 To be sad,슬프다,4
 To be delicious,맛있다,4
-To be fun / to be funny,재미있다,4
+To be fun/To be funny,재미있다,4
 To be many of,많다,4
 To be happy,행복하다,4
 There,거기,4
@@ -170,7 +171,7 @@ Picture,사진,5
 Glasses,안경,5
 Secret,비밀,5
 Rain,비,5
-Store/shop,가게,5
+Store/Shop,가게,5
 Museum,박물관,5
 Stove (gas range),가스 레인지,5
 Duck (animal),오리,5
@@ -206,7 +207,8 @@ Friday,금요일,5
 Saturday,토요일,5
 Sunday,일요일,5
 Shoe,신발,6
-Shirt,남방/셔츠,6
+Shirt(1),남방,6
+Shirt(2),셔츠,6
 Question,질문,6
 Question/Problem,문제,6
 Age,나이,6
@@ -270,7 +272,7 @@ Summer,여름,7
 Fall,가을,7
 Winter,겨울,7
 Spring,봄,7
-To search for/find,찾다,7
+To search for/Find,찾다,7
 To teach,가르치다,7
 To work,일하다,7
 To build,짓다,7
@@ -297,3 +299,52 @@ To be impossible,불가능하다,7
 To be pretty,예쁘다,7
 Early,일찍,7
 everyday,매일,7
+Maschine,기계,8
+College/University,대학교,8
+Truck,트럭,8
+(the color) black,검은색,8
+(the color) white,흰색,8
+Beverage/Drink,음료수,8
+Foreign country,외국,8
+Foreigner,외국인,8
+High school,고등학교,8
+Library,도서관,8
+Place,곳,8
+Same time,동시,8
+Night,밤,8
+Last night,어젯밤,8
+Daytime,낮,8
+East,동,8
+South,남,8
+West,서,8
+North,북,8
+To play,놀다,8
+To use,쓰다,8
+To write,쓰다,8
+To make a mistake,실수하다,8
+To repair,수리하다,8
+To catch/To grab/To grasp,잡다,8
+To read,읽다,8
+To pay for,내다,8
+To get/To receive/To acquire,받다,8
+To arrive,도착하다,8
+To travel,여행하다,8
+To be perfect,완벽하다,8
+To be sick/To be sore,아프다,8
+To be smart,똑똑하다,8
+To be important,중요하다,8
+To be young,젊다,8
+To be old,늙다,8
+To be bad,나쁘다,8
+Immediately(1),바로,8
+Immediately(2),즉시,8
+Quickly/Fast,빨리,8
+Often,자주,8
+Sometimes,가끔,8
+Many/A lot of,많이,8
+A moment ago,방금,8
+Suddenly,갑자기,8
+Every year,매년,8
+Again,다시,8
+Alone,혼자,8
+not,안,8

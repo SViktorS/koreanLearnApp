@@ -34,7 +34,7 @@
 							</form>
 						</div>
 						<div th:if=${vocbook.isDeskVocBook} class="card mx-2 mb-2 px-2" style="border-color:#006999; border-width:4px; border-radius:0 0 5px 5px">				
-							<div class="card-body pb-0 pt-1">
+							<div class="card-body pb-0 pt-1 px-2">
 								<h3 class="card-title text-center" th:text="${vocbook.name}"></h3>							
 								<div class="card-group">
 									<div class="card text-center p-1" style="border-radius:20px 0 0 0; border-color:#006999; border-width:2px 2px 1px 2px;">
@@ -82,7 +82,7 @@
 								</form>
 							</div>
 							<div th:if=${vocbook.isHiddenVocBook} class="card mx-2 mb-2 px-2" style="border-color:#595959; border-width:4px; border-radius:0 0 5px 5px">				
-								<div class="card-body pb-0 pt-1 text-center">
+								<div class="card-body pb-0 pt-1 px-2 text-center">
 									<h3 class="card-title text-center" th:text="${vocbook.name}"></h3>							
 									<div class="card-group">
 										<div class="card text-center p-1" style="border-radius:20px 0 0 0; border-color:#595959; border-width:2px 2px 1px 2px;">
