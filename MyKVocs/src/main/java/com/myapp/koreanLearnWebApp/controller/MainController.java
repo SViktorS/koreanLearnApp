@@ -35,7 +35,7 @@ public class MainController {
         return "index";
     }
 	
-	private static int calculateLessonPracticeProgress(List<VocBook> vocBooks) {
+	private int calculateLessonPracticeProgress(List<VocBook> vocBooks) {
 		int lessonProgress = 0;
 		for(VocBook vocBook : vocBooks) {
 			if(vocBook.isDeskVocBook() || vocBook.isHiddenVocBook()) {
@@ -115,7 +115,7 @@ public class MainController {
         return "redirect:/vocbook/{vocbookId}/practice/result/{wordId}";
 	}
 	
-	private static VocBook setBestResultAndSuccessPercentageOfASpecificVocbook(VocBook vocBook) {   	
+	private VocBook setBestResultAndSuccessPercentageOfASpecificVocbook(VocBook vocBook) {   	
     	int vocBookRight = vocBook.getRightAnswersAllWords();
     	int vocBookWrong = vocBook.getWrongAnswersAllWords();
     	float percentageRight;
