@@ -38,7 +38,8 @@ public class VocBook {
 
     private boolean isHiddenVocBook;
 
-    public VocBook() {}
+    public VocBook() {
+    }
 
     public VocBook(String name) {
         super();

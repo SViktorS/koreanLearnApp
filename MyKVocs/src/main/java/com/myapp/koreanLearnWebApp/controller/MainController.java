@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-    @Autowired private WordService wordService;
+    @Autowired
+    private WordService wordService;
 
-    @Autowired private VocBookService vocBookService;
+    @Autowired
+    private VocBookService vocBookService;
 
     @GetMapping("/")
     public String displayAllVocBooks(Model model) {

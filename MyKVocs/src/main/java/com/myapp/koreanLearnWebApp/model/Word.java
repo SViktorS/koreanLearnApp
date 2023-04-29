@@ -24,7 +24,8 @@ public class Word {
 
     private int vocBookId;
 
-    public Word() {}
+    public Word() {
+    }
 
     public Word(String englishWord, String koreanWord, int vocBookId) {
         this.englishWord = englishWord;
