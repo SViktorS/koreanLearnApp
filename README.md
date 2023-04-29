@@ -38,9 +38,9 @@ Some changes that are planned for the new version:
 
 - Move from Server-Side Application with Thymeleaf to Single Page Application with Vue.js
 - Introduce a microservices architecture with the help of technologies like Docker and Kubernetes
--- REST Service for the backend and put it into a container
--- Put Vue.js application into a container that consumes the REST Endpoints of the backend container
--- Put a Database (Until now I only used PostreSQL, therefore I will use something else like MySQL for learning purposes) into a container
+  - REST Service for the backend and put it into a container
+  - Put Vue.js application into a container that consumes the REST Endpoints of the backend container
+  - Put a Database (Until now I only used PostreSQL, therefore I will use something else like MySQL for learning purposes) into a container
 - New features like creating own VocBooks
 
 Some decisions maybe make no sense, like using a microservises architecture for a small Application like this.
